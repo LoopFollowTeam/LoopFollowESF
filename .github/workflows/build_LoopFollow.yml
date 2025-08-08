@@ -1,3 +1,7 @@
+name: Build LoopFollow (Manual)
+
+on:
+  workflow_dispatch:
 name: 4. Build Loop Follow
 run-name: Build Loop Follow (${{ github.ref_name }})
 on:
