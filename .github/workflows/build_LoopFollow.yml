@@ -37,7 +37,7 @@ jobs:
     outputs:
       WORKFLOW_PERMISSION: ${{ steps.workflow-permission.outputs.has_permission }}
 
-        steps:
+      steps:
       - name: Check for workflow permissions
         id: workflow-permission
         env:
