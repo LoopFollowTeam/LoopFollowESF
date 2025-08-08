@@ -1,4 +1,4 @@
-name: Build LoopFollow on GitHub Actions
+name: Manual iOS Build
 
 on:
   workflow_dispatch:
@@ -9,26 +9,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
+          ruby-version: '3.0'
+
+      - name: Install bundler
+        run: gem install bundler
 
       - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle install
-          bundle exec pod install
+        run: bundle install
 
-      - name: Run Fastlane build
-        env:
-          TEAMID: ${{ secrets.DEVELOPER_APP_ID }}
-          GH_PAT: ${{ secrets.GH_PAT }}
-          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
-          FASTLANE_KEY_ID: ${{ secrets.FASTLANE_KEY_ID }}
-          FASTLANE_ISSUER_ID: ${{ secrets.FASTLANE_ISSUER_ID }}
-          FASTLANE_KEY: ${{ secrets.FASTLANE_KEY }}
-        run: |
-          bundle exec fastlane build_LoopFollow
+      - name: Run fastlane build
+        run: bundle exec fastlane build_LoopFollow
