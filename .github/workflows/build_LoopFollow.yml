@@ -54,10 +54,11 @@ jobs:
             echo "has_permission=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Authenticate GH CLI
+       name: Authenticate GH CLI
         run: |
           gh auth login --with-token <<< "${{ secrets.GH_PAT }}"
-           - name: Check for alive branches
+
+      - name: Check for alive branches
         if: steps.workflow-permission.outputs.has_permission == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
