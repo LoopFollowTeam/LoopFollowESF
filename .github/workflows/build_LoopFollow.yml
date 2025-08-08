@@ -57,17 +57,14 @@ jobs:
       - name: Authenticate GH CLI
         run: |
           gh auth login --with-token <<< "${{ secrets.GH_PAT }}"
-      - name: Check for alive branches
+           - name: Check for alive branches
         if: steps.workflow-permission.outputs.has_permission == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-        - name: Check for alive branches
-        if: steps.workflow-permission.outputs.has_permission == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-        run: |
-          if [[ $(gh api -H "Accept: application/vnd.github+json" /repos/${{ env.UPSTREAM_REPO }}/branches | jq --raw-output '[.[] | select(.name == "alive-main" or .name == "alive-dev")] | length > 0') == "true" ]]; then
+          BRANCHES=$(gh api -H "Accept: application/vnd.github+json" /repos/${{ env.UPSTREAM_REPO }}/branches)
+          COUNT=$(echo "$BRANCHES" | jq '[.[] | select(.name == "alive-main" or .name == "alive-dev")] | length')
+          if [[ "$COUNT" -gt 0 ]]; then
             echo "Branches 'alive-main' or 'alive-dev' exist."
             echo "ALIVE_BRANCH_EXISTS=true" >> $GITHUB_ENV
           else
