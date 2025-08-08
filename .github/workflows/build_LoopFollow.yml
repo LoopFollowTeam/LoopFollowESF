@@ -75,8 +75,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           # Get ref for UPSTREAM_REPO:${{ env.UPSTREAM_BRANCH }}
-          SHA_MAIN=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ env.UPSTREAM_REPO }}/git/refs/heads/${{ env.UPSTREAM_BRANCH }} | jq -r '.object.sha')
-          # Get ref for UPSTREAM_REPO:dev
+          SHA_MAIN=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/loopandlearn/LoopFollow/git/refs/heads/dev | jq -r '.object.sha')          # Get ref for UPSTREAM_REPO:dev
           SHA_DEV=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ env.UPSTREAM_REPO }}/git/refs/heads/dev | jq -r '.object.sha')
 
           # Create alive-main branch in LoopFollow fork based on UPSTREAM_REPO:${{ env.UPSTREAM_BRANCH }}
