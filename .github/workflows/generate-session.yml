@@ -1,0 +1,26 @@
+name: Generate Fastlane Session
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fastlane-session:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install Ruby and Fastlane
+        run: |
+          brew install ruby
+          echo 'export PATH="/usr/local/opt/ruby/bin:$PATH"' >> ~/.bash_profile
+          source ~/.bash_profile
+          gem install fastlane -NV
+
+      - name: Run spaceauth and print session
+        env:
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+        run: |
+          echo "Running fastlane spaceauth for ${{ secrets.APPLE_ID }}"
+          fastlane spaceauth -u ${{ secrets.APPLE_ID }}
