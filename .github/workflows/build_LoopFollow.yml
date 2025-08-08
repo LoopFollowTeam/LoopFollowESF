@@ -14,7 +14,7 @@ on:
 
 env:  
   UPSTREAM_REPO: loopandlearn/LoopFollow
-  UPSTREAM_BRANCH: main
+  UPSTREAM_BRANCH: dev
   TARGET_BRANCH: main
   ALIVE_BRANCH_MAIN: alive-main
   ALIVE_BRANCH_DEV: alive-dev
