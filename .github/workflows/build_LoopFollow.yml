@@ -55,7 +55,8 @@ jobs:
           fi
 
       - name: Authenticate GH CLI
-        run: gh auth login --with-token <<< "${{ secrets.GH_PAT }}"
+        run: |
+          gh auth login --with-token <<< "${{ secrets.GH_PAT }}"
       - name: Check for alive branches
         if: steps.workflow-permission.outputs.has_permission == 'true'
         env:
