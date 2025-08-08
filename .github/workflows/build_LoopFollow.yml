@@ -61,8 +61,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          if [[ $(gh api -H "Accept: application/vnd.github+json" /repos/${{ github.repository_owner }}/LoopFollow/branches | jq --raw-output '[.[] | select(.name == "alive-main" or .name == "alive-dev")] | length > 0') == "true" ]]; then
-            echo "Branches 'alive-main' or 'alive-dev' exist."
+        if [[ $(gh api -H "Accept: application/vnd.github+json" /repos/${{ env.UPSTREAM_REPO }}/branches | jq --raw-output '[.[] | select(.name == "alive-main" or .name == "alive-dev")] | length > 0') == "true" ]]; then            echo "Branches 'alive-main' or 'alive-dev' exist."
             echo "ALIVE_BRANCH_EXISTS=true" >> $GITHUB_ENV
           else
             echo "Branches 'alive-main' and 'alive-dev' do not exist."
@@ -75,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           # Get ref for UPSTREAM_REPO:${{ env.UPSTREAM_BRANCH }}
-          SHA_MAIN=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/loopandlearn/LoopFollow/git/refs/heads/dev | jq -r '.object.sha')          # Get ref for UPSTREAM_REPO:dev
+          SHA_MAIN=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ env.UPSTREAM_REPO }}/git/refs/heads/${{ env.UPSTREAM_BRANCH }} | jq -r '.object.sha')          # Get ref for UPSTREAM_REPO:dev
           SHA_DEV=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${{ env.UPSTREAM_REPO }}/git/refs/heads/dev | jq -r '.object.sha')
 
           # Create alive-main branch in LoopFollow fork based on UPSTREAM_REPO:${{ env.UPSTREAM_BRANCH }}
