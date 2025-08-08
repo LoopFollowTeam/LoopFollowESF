@@ -37,7 +37,7 @@ jobs:
     outputs:
       WORKFLOW_PERMISSION: ${{ steps.workflow-permission.outputs.has_permission }}
 
-    steps:
+        steps:
       - name: Check for workflow permissions
         id: workflow-permission
         env:
@@ -54,7 +54,7 @@ jobs:
             echo "has_permission=false" >> $GITHUB_OUTPUT
           fi
 
-       name: Authenticate GH CLI
+       - name: Authenticate GH CLI
         run: |
           gh auth login --with-token <<< "${{ secrets.GH_PAT }}"
 
